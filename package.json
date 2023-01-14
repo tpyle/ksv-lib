@@ -1,0 +1,21 @@
+{
+  "name": "ksv-lib",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/tpyle/ksv-lib",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tpyle/ksv-lib"
+  },
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Thomas Pyle",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "crypto-random": "^2.0.1",
+    "openpgp": "^5.5.0"
+  },
+  "type": "module"
+}
