@@ -13,20 +13,36 @@ function shuffle(array) {
     }
   
     return array;
-  }
+}
+
+/**
+ * @typedef {Object} KeyGeneratorJSON
+ * @property {number} length
+ * @property {import('./KeyCharacterClass.js').KeyCharacterClassJSON} characterClasses
+ */
 
 class KeyGenerator {
+    /**
+     * Creates new KeyGenerator
+     * @param {number} length The length of the key for this generator
+     * @param {KeyCharacterClass[]} characterClasses A list of character classes which make up the key
+     */
     constructor(length, characterClasses) {
         if (!(length && typeof(length) == 'number')) {
             throw new Error(`A KeyGenerator must have a length associated with it`);
         }
-        if (!(characterClasses && Array.isArray(characterClasses) && characterClasses.length > 0)) {
+        if (!(characterClasses && Array.isArray(characterClasses) && characterClasses.length > 0 && characterClasses.map(f=>f instanceof KeyCharacterClass).reduce((a,c)=>a && c, true))) {
             throw new Error(`A KeyGenerator must have at least one character class associated with it`);
         }
         this.length = length;
         this.characterClasses = characterClasses;
     }
 
+    /**
+     * Creates a new KeyGenerator from its object representation
+     * @param {KeyGeneratorJSON} jsonObject a KeyGenerator in object format
+     * @returns 
+     */
     static load(jsonObject) {
         return new KeyGenerator(
             jsonObject.length,
@@ -34,6 +50,10 @@ class KeyGenerator {
         );
     }
 
+    /**
+     * Converts a KeyGenerator into its equivalent object representation
+     * @returns {KeyGeneratorJSON} The object representation
+     */
     dump() {
         return {
             length: this.length,
@@ -41,10 +61,23 @@ class KeyGenerator {
         };
     }
 
+    /**
+     * @typedef {Object} CurrentClassCount
+     * @property {number} currentCount
+     * @property {KeyCharacterClass} class
+     */
+
+    /**
+     * Picks a random character from the list of currently available classes
+     * @param {CurrentClassCount[]} classes A list of modified key character class shims which include the current count
+     */
     #pickRandomClass(classes) {
         let classInclination = classes
             .filter(c=>c.currentCount < (c.class.maxCount || this.length))
             .map(c =>{ return { quantity: c.class.getQuantity(), c } });
+        if (classInclination.length == 0) {
+            throw new Error(`There is not enough characters in these character classes to generate a full-length password`);
+        }
         let totalQuantity = classInclination.reduce((a,c)=>a+c.quantity, 0);
         let base = 0;
         let pick = random.value();
@@ -56,6 +89,10 @@ class KeyGenerator {
             })[0].c;
     }
 
+    /**
+     * Creates a cryptographically random password based on the rules of this KeyGenerator's character classes and the KeyGenerator's length.
+     * @returns {string} A newly created password
+     */
     generate() {
         let password = [];
         this.characterClasses.forEach(c => {

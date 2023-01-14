@@ -1,59 +1,60 @@
 import KeyEntry from "./KeyEntry.js";
 
 
-const constants = {
-    WEBSITE: Symbol('WEBSITE ITEM'),
-    APPLICATION: Symbol('APPLICATION ITEM'),
-}
-
-const ITEM_TYPES = {
-    [constants.WEBSITE]: 'website',
-    [constants.APPLICATION]: 'application',
-}
+/**
+ * @typedef {Object} ItemEntryJSON
+ * @property {string} itemName
+ * @property {string[]} alternativeNames
+ * @property {import("./KeyEntry.js").KeyEntryJSON} keyEntries
+ */
 
 class ItemEntry {
-    static constants = constants;
-
-    constructor(itemName, alternativeNames, itemType, keyEntries) {
+    /**
+     * Creates a new ItemEntry
+     * @param {string} itemName The name of the item
+     * @param {string[]} alternativeNames Any alternative names associated with the item
+     * @param {KeyEntry[]} keyEntries A list of KeyEntries associated with the item
+     */
+    constructor(itemName, alternativeNames, keyEntries) {
         if (!(itemName && typeof(itemName) == 'string')) {
             throw new Error(`An ItemEntry must contain a valid itemName`);
         }
         if (!(alternativeNames && Array.isArray(alternativeNames) && alternativeNames.map(n=>typeof(n) == 'string').reduce((a,c)=> a && c, true))) {
             throw new Error(`An ItemEntry must contain a valid list of alternativeNames`);
         }
-        if (!(itemType && typeof(itemType) == 'symbol' && ITEM_TYPES[itemType])) {
-            throw new Error(`An ItemEntry must contain a valid itemType`);
-        }
         if (!(keyEntries && Array.isArray(keyEntries) && keyEntries.map(f=>f instanceof KeyEntry).reduce((a,c)=>a && c, true))) {
             throw new Error(`An ItemEntry must have a valid set of KeyEntries`);
         }
         this.itemName = itemName;
         this.alternativeNames = alternativeNames;
-        this.itemType = itemType;
         this.keyEntries = keyEntries;
     }
 
+    /**
+     * Converts an ItemEntry JSON format into the class format
+     * @param {ItemEntryJSON} jsonObject 
+     * @returns {ItemEntry}
+     */
     static load(jsonObject) {
         return new ItemEntry(
             jsonObject.itemName,
             jsonObject.alternativeNames,
-            jsonObject.itemType,
-            jsonObject.keyEntries.map(k=>new KeyEntry(k)),
+            jsonObject.keyEntries.map(k=>KeyEntry.load(k)),
         );
     }
 
+    /**
+     * Converts the ItemEntry into its equivalent object format
+     * @returns {ItemEntryJSON}
+     */
     dump() {
         return {
             itemName: this.itemName,
             alternativeNames: this.alternativeNames,
-            itemType: this.itemType,
             keyEntries: this.keyEntries.map(k=>k.dump()),
         }
     }
 }
 
-
-export const WEBSITE = constants.WEBSITE;
-export const APPLICATION = constants.APPLICATION;
 
 export default ItemEntry;

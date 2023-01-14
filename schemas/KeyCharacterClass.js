@@ -22,15 +22,23 @@ const STANDARD_CHARACTER_CLASSES = {
     [constants.OWASP_SPECIAL_CHARACTERS]: '\u0020\u0021\u0022\u0023\u0024\u0025\u0026\u0027\u0028\u0029\u002a\u002b\u002c\u002d\u002e\u002f\u003a\u003b\u003c\u003d\u003e\u003f\u0040\u005b\u005c\u005d\u005e\u005f\u0060\u007b\u007c\u007d\u007e',
 }
 
+/**
+ * @typedef {Object} KeyCharacterClassJSON
+ * @property {(string|null)} characterList
+ * @property {(string|null)} standardCharacterClass
+ * @property {(number|null)} minCount
+ * @property {(number|null)} maxCount
+ */
+
 class KeyCharacterClass {
     static constants = constants;
 
     /**
      * 
-     * @param {string|null} characterList A list of potential characters for this class
-     * @param {StandardCharacterClass|null} standardCharacterClass The class its a part of
-     * @param {number|null} minCount The required minimum amount of this character class
-     * @param {number|null} maxCount The maximum amount of this character class which should be present
+     * @param {(string|null)} characterList A list of potential characters for this class
+     * @param {(StandardCharacterClass|null)} standardCharacterClass The class its a part of
+     * @param {(number|null)} minCount The required minimum amount of this character class
+     * @param {(number|null)} maxCount The maximum amount of this character class which should be present
      */
     constructor(characterList, standardCharacterClass, minCount, maxCount) {
         if (!(characterList && typeof(characterList) === 'string') &&
@@ -39,10 +47,14 @@ class KeyCharacterClass {
         }
         this.characterList = characterList || null;
         this.standardCharacterClass = standardCharacterClass || null;
-        this.minCount = minCount || null;
-        this.maxCount = maxCount || null;
+        this.minCount = Number(minCount) || null;
+        this.maxCount = Number(maxCount) || null;
     }
 
+    /**
+     * Computes the number of characters in the character class
+     * @returns {number} The number of characters in this character class
+     */
     getQuantity() {
         if (this.characterList) {
             return this.characterList.length;
@@ -51,6 +63,11 @@ class KeyCharacterClass {
         }
     }
 
+    /**
+     * Creates a KeyCharacterClass from its object representation
+     * @param {KeyCharacterClassJSON} jsonObject 
+     * @returns {KeyCharacterClass}
+     */
     static load(jsonObject) {
         return new KeyCharacterClass(
             jsonObject.characterList,
@@ -60,6 +77,10 @@ class KeyCharacterClass {
         );
     }
 
+    /**
+     * Converts the KeyCharacterClass into its equivalent object representation
+     * @returns {KeyCharacterClassJSON}
+     */
     dump() {
         return {
             characterList: this.characterList,
@@ -69,6 +90,10 @@ class KeyCharacterClass {
         }
     }
 
+    /**
+     * Computes a cryptographically-random member of the KeyCharacterClass
+     * @returns {string} A single character which is a member of the KeyCharacterClass
+     */
     pick() {
         let list = this.characterList ?
             this.characterList :
