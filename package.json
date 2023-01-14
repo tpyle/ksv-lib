@@ -17,5 +17,15 @@
     "crypto-random": "^2.0.1",
     "openpgp": "^5.5.0"
   },
-  "type": "module"
+  "type": "module",
+  "exports": {
+    ".": "./index.js",
+    "./crypto": "./crypto/index.js",
+    "./schemas": "./schemas/index.js",
+    "./schemas/*": "./schemas/*.js",
+    "./schemas/*.js": "./schemas/*.js",
+    "./templates": "./templates/index.js",
+    "./templates/*": "./templates/*.js",
+    "./templates/*.js": "./templates/*.js"
+  }
 }

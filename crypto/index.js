@@ -1,11 +1,11 @@
-import { createMessage, readMessage, encrypt, decrypt } from 'openpgp';
+import { createMessage, readMessage, encrypt as _encrypt, decrypt as _decrypt } from 'openpgp';
 
 
-async function encrypt(plaintextMessage, password) {
+export async function encrypt(plaintextMessage, password) {
     const message = await createMessage({
         text: plaintextMessage,
     });
-    const encrypted = await encrypt({
+    const encrypted = await _encrypt({
         message, // input as Message object
         passwords: [password], // multiple passwords possible
         format: 'armored' // don't ASCII armor (for Uint8Array output)
@@ -13,11 +13,11 @@ async function encrypt(plaintextMessage, password) {
     return encrypted
 }
 
-async function decrypt(encryptedText, password) {
+export async function decrypt(encryptedText, password) {
     const encryptedMessage = await readMessage({
         armoredMessage: encryptedText,
     });
-    const { data: decrypted } = await decrypt({
+    const { data: decrypted } = await _decrypt({
         message: encryptedMessage,
         passwords: [password],
         format: 'armored',
@@ -26,5 +26,7 @@ async function decrypt(encryptedText, password) {
 }
 
 
-export const encrypt = encrypt;
-export const decrypt = decrypt;
+export default {
+    encrypt,
+    decrypt,
+}

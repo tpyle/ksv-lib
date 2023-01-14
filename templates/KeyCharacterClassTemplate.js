@@ -1,6 +1,5 @@
-
-import KeyCharacterClass from "../schemas/KeyCharacterClass";
-import Template from "./Template";
+import KeyCharacterClass from "../schemas/KeyCharacterClass.js";
+import Template from "./Template.js";
 
 class KeyCharacterClassTemplate extends Template {
     static templateOf = KeyCharacterClass;

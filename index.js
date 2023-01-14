@@ -1,8 +1,3 @@
-import crypto from './crypto.js';
-import schemas from './schemas';
-import templates from './templates';
-
-
-export const crypto = crypto;
-export const schemas = schemas;
-export const templates = templates;
+export * as crypto from './crypto/index.js';
+export * as schemas from './schemas/index.js';
+export * as templates from './templates/index.js';
