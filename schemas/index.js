@@ -10,3 +10,11 @@ export const KeyCharacterClass = KeyCharacterClass;
 export const KeyEntry = KeyEntry;
 export const KeyEntryField = KeyEntryField;
 export const KeyGenerator = KeyGenerator;
+
+export default {
+    ItemEntry,
+    KeyCharacterClass,
+    KeyEntry,
+    KeyEntryField,
+    KeyGenerator,
+}

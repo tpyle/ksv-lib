@@ -5,3 +5,9 @@ import KeyGeneratorTemplate from "./KeyGeneratorTemplate"
 export const KeyCharacterClassTemplate = KeyCharacterClassTemplate;
 export const KeyEntryFieldTemplate = KeyEntryFieldTemplate;
 export const KeyGeneratorTemplate = KeyGeneratorTemplate;
+
+export default {
+    KeyCharacterClassTemplate,
+    KeyEntryFieldTemplate,
+    KeyGeneratorTemplate,
+}
