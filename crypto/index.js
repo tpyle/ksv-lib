@@ -6,9 +6,9 @@ export async function encrypt(plaintextMessage, password) {
         text: plaintextMessage,
     });
     const encrypted = await _encrypt({
-        message, // input as Message object
-        passwords: [password], // multiple passwords possible
-        format: 'armored' // don't ASCII armor (for Uint8Array output)
+        message,
+        passwords: [password],
+        format: 'armored',
     });
     return encrypted
 }
@@ -23,10 +23,4 @@ export async function decrypt(encryptedText, password) {
         format: 'armored',
     });
     return decrypted;
-}
-
-
-export default {
-    encrypt,
-    decrypt,
 }
