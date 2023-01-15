@@ -8,19 +8,19 @@ export async function encrypt(plaintextMessage, password) {
     const encrypted = await _encrypt({
         message,
         passwords: [password],
-        format: 'armored',
+        format: 'binary',
     });
     return encrypted
 }
 
 export async function decrypt(encryptedText, password) {
     const encryptedMessage = await readMessage({
-        armoredMessage: encryptedText,
+        binaryMessage: new Uint8Array(encryptedText),
     });
     const { data: decrypted } = await _decrypt({
         message: encryptedMessage,
         passwords: [password],
-        format: 'armored',
+        format: 'binary',
     });
     return decrypted;
 }
