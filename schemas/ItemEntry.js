@@ -54,6 +54,28 @@ class ItemEntry {
             keyEntries: this.keyEntries.map(k=>k.dump()),
         }
     }
+
+    /**
+     * Adds a new Key Entry for this item
+     * @param {KeyEntry} keyEntry The new key entry to add
+     */
+    addKeyEntry(keyEntry) {
+        if (!(keyEntry && keyEntry instanceof KeyEntry)) {
+            throw new Error(`Invalid KeyEntry ${keyEntry}`);
+        }
+        this.keyEntries.push(keyEntry);
+    }
+
+    /**
+     * Removes the specified keyEntry from this item
+     * @param {KeyEntry} keyEntry The KeyEntry to remove
+     */
+    removeKeyEntry(keyEntry) {
+        if (!(keyEntry && keyEntry instanceof KeyEntry)) {
+            throw new Error(`Invalid KeyEntry ${keyEntry}`);
+        }
+        this.keyEntries = this.keyEntries.filter(ke => ke !== keyEntry);
+    }
 }
 
 
