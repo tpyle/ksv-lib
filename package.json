@@ -26,6 +26,7 @@
     "./schemas/*.js": "./schemas/*.js",
     "./templates": "./templates/index.js",
     "./templates/*": "./templates/*.js",
-    "./templates/*.js": "./templates/*.js"
+    "./templates/*.js": "./templates/*.js",
+    "./KSVObject": "./KSVObject.js"
   }
 }
