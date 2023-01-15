@@ -1,3 +1,4 @@
+import { DEFAULT_KSV_OBJECT } from "./defaults/index.js";
 import ItemEntry from "./schemas/ItemEntry.js";
 import KeyCharacterClassTemplate from "./templates/KeyCharacterClassTemplate.js";
 import KeyEntryFieldTemplate from "./templates/KeyEntryFieldTemplate.js";
@@ -37,6 +38,12 @@ class KSVObject {
         this.keyCharacterClassTemplates = keyCharacterClassTemplates || [];
         this.keyGeneratorTemplates = keyGeneratorTemplates || [];
         this.keyEntryFieldTemplates = keyEntryFieldTemplates || [];
+    }
+
+    static default() {
+        return this.load(
+            DEFAULT_KSV_OBJECT,
+        );
     }
 
     /**
