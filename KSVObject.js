@@ -1,3 +1,6 @@
+import { deserialize, serialize } from "bson";
+
+import { decrypt, encrypt } from "./crypto/index.js";
 import { DEFAULT_KSV_OBJECT } from "./defaults/index.js";
 import ItemEntry from "./schemas/ItemEntry.js";
 import KeyCharacterClassTemplate from "./templates/KeyCharacterClassTemplate.js";
@@ -71,6 +74,16 @@ class KSVObject {
             keyGeneratorTemplates: this.keyGeneratorTemplates.map(kg=>kg.dump()),
             keyEntryFieldTemplates: this.keyEntryFieldTemplates.map(kef=>kef.dump()),
         }
+    }
+
+    async encrypt(password) {
+        let data = serialize(this.dump());
+        return await encrypt(data, password);
+    }
+
+    static async decrypt(buffer, password) {
+        let rawData = await decrypt(buffer, password);
+        return this.load(deserialize(rawData));
     }
 }
 
