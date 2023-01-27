@@ -1,26 +1,26 @@
 import { createMessage, readMessage, encrypt as _encrypt, decrypt as _decrypt } from 'openpgp';
 
 
-export async function encrypt(binaryMessage, password) {
+export async function encrypt(text, password) {
     const message = await createMessage({
-        binary: binaryMessage,
+        text,
     });
     const encrypted = await _encrypt({
         message,
         passwords: [password],
-        format: 'binary',
+        format: "armored",
     });
     return encrypted
 }
 
-export async function decrypt(encryptedText, password) {
+export async function decrypt(armoredMessage, password) {
     const encryptedMessage = await readMessage({
-        binaryMessage: new Uint8Array(encryptedText),
+        armoredMessage,
     });
     const { data: decrypted } = await _decrypt({
         message: encryptedMessage,
         passwords: [password],
-        format: 'binary',
+        format: 'armored',
     });
-    return Buffer.from(decrypted);
+    return decrypted;
 }
