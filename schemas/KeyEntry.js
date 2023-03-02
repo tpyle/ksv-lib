@@ -1,3 +1,4 @@
+import { KSVAlreadyPresentError } from "../errors/index.js";
 import KeyEntryField from "./KeyEntryField.js";
 
 
@@ -60,6 +61,28 @@ class KeyEntry {
             identityProvider: this.identityProvider,
             notes: this.notes,
         }
+    }
+
+    /**
+     * Adds a KeyEntryField to the KeyEntry. If one with this name is already present, an error is thrown.
+     * @param {KeyEntryField} keyEntryField 
+     */
+    addField(keyEntryField) {
+        const matchingFields = this.fields.filter(f => f.name === keyEntryField.name);
+
+        if (matchingFields.length > 0) {
+            throw new KSVAlreadyPresentError(`KeyEntryField`, keyEntryField.name);
+        }
+
+        this.fields.push(keyEntryField);
+    }
+
+    /**
+     * Removes the KeyEntryField with the name specified
+     * @param {string} fieldName 
+     */
+    removeField(fieldName) {
+        this.field = this.fields.filter(f => f.name !== fieldName);
     }
 }
 

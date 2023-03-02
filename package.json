@@ -27,6 +27,7 @@
     "./templates": "./templates/index.js",
     "./templates/*": "./templates/*.js",
     "./templates/*.js": "./templates/*.js",
+    "./errors": "./errors/index.js",
     "./KSVObject": "./KSVObject.js"
   }
 }

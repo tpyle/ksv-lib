@@ -9,6 +9,12 @@ import KeyCharacterClass from "../schemas/KeyCharacterClass.js";
  */
 
 class KeyCharacterClassTemplate {
+    /**
+     * Creates a new KeyCharacterClassTemplate
+     * @param {string} name 
+     * @param {string} description 
+     * @param {KeyCharacterClass} schema 
+     */
     constructor(name, description, schema) {
         if (!(name && typeof(name) === 'string')) {
             throw new Error(`A Template must contain a valid name`);
@@ -21,6 +27,11 @@ class KeyCharacterClassTemplate {
         this.schema = schema;
     }
 
+    /**
+     * Loads a KeyCharacterClassTemplate from its JSON representation
+     * @param {KeyCharacterClassTemplateJSON} jsonObject 
+     * @returns {KeyCharacterClassTemplate}
+     */
     static load(jsonObject) {
         return new KeyCharacterClassTemplate(
             jsonObject.name,
@@ -29,6 +40,10 @@ class KeyCharacterClassTemplate {
         )
     }
 
+    /**
+     * Dumps a KeyCharacterClassTemplate into its JSON representation
+     * @returns {KeyCharacterClassTemplateJSON}
+     */
     dump() {
         return {
             name: this.name,
@@ -37,6 +52,10 @@ class KeyCharacterClassTemplate {
         };
     }
 
+    /**
+     * Creates an instance of a KeyCharacterClass
+     * @returns {KeyCharacterClass}
+     */
     createInstance() {
         return KeyCharacterClass.load(this.schema.dump());
     }

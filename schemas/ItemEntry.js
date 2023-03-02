@@ -8,6 +8,10 @@ import KeyEntry from "./KeyEntry.js";
  * @property {import("./KeyEntry.js").KeyEntryJSON} keyEntries
  */
 
+/**
+ * @typedef {ItemEntry} ItemEntry
+ */
+
 class ItemEntry {
     /**
      * Creates a new ItemEntry

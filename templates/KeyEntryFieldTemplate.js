@@ -9,6 +9,12 @@ import KeyEntryField from "../schemas/KeyEntryField.js";
  */
 
 class KeyEntryFieldTemplate {
+    /**
+     * Creates a new KeyEntryFieldTemplate
+     * @param {string} name 
+     * @param {string} description 
+     * @param {KeyEntryField} schema 
+     */
     constructor(name, description, schema) {
         if (!(name && typeof(name) === 'string')) {
             throw new Error(`A Template must contain a valid name`);
@@ -21,6 +27,11 @@ class KeyEntryFieldTemplate {
         this.schema = schema;
     }
 
+    /**
+     * Loads a KeyEntryFieldTemplate from JSON
+     * @param {KeyEntryFieldTemplateJSON} jsonObject 
+     * @returns {KeyEntryFieldTemplate}
+     */
     static load(jsonObject) {
         return new KeyEntryFieldTemplate(
             jsonObject.name,
@@ -29,6 +40,10 @@ class KeyEntryFieldTemplate {
         )
     }
 
+    /**
+     * Converts this object into its JSON representation
+     * @returns {KeyEntryFieldTemplateJSON}
+     */
     dump() {
         return {
             name: this.name,
@@ -37,6 +52,10 @@ class KeyEntryFieldTemplate {
         };
     }
 
+    /**
+     * Creates a new example of this template
+     * @returns {KeyEntryField}
+     */
     createInstance() {
         return KeyEntryField.load(this.schema.dump());
     }
